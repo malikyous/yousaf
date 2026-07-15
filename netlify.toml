@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && npm run build"
+  command = "npm ci && npm run build"
   publish = "dist"
   base = "frontend"
 
@@ -10,4 +10,3 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  NPM_FLAGS = "--legacy-peer-deps"
