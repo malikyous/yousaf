@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ArrowLeft, Download, QrCode, Trash2, Share2, Printer } from 'lucide-react'
 import axios from 'axios'
+import { config } from '../config'
 
 const InvoiceView = ({ invoice, onBack, onRefresh }) => {
   const [qrCodeUrl, setQrCodeUrl] = useState(null)
@@ -15,7 +16,7 @@ const InvoiceView = ({ invoice, onBack, onRefresh }) => {
   const fetchQrCode = async () => {
     try {
       setLoadingQr(true)
-      const response = await axios.get(`/api/invoices/${invoice.id}/qr`, {
+      const response = await axios.get(`${config.apiUrl}/api/invoices/${invoice.id}/qr`, {
         responseType: 'blob'
       })
       const url = URL.createObjectURL(response.data)
@@ -29,7 +30,7 @@ const InvoiceView = ({ invoice, onBack, onRefresh }) => {
 
   const handleDownloadPdf = async () => {
     try {
-      const response = await axios.get(`/api/invoices/${invoice.id}/pdf`, {
+      const response = await axios.get(`${config.apiUrl}/api/invoices/${invoice.id}/pdf`, {
         responseType: 'blob'
       })
       const url = window.URL.createObjectURL(new Blob([response.data]))
@@ -48,7 +49,7 @@ const InvoiceView = ({ invoice, onBack, onRefresh }) => {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this invoice?')) {
       try {
-        await axios.delete(`/api/invoices/${invoice.id}`)
+        await axios.delete(`${config.apiUrl}/api/invoices/${invoice.id}`)
         onRefresh()
         onBack()
       } catch (error) {

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Plus, Trash2, Save, X } from 'lucide-react'
 import axios from 'axios'
+import { config } from '../config'
 
 const InvoiceForm = ({ onInvoiceCreated, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -66,7 +67,7 @@ const InvoiceForm = ({ onInvoiceCreated, onCancel }) => {
     setLoading(true)
 
     try {
-      const response = await axios.post('/api/invoices', {
+      const response = await axios.post(`${config.apiUrl}/api/invoices`, {
         ...formData,
         items: validItems
       })

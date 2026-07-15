@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Eye, Trash2, FileText, Search } from 'lucide-react'
 import axios from 'axios'
+import { config } from '../config'
 
 const InvoiceList = ({ invoices, refreshTrigger, onViewInvoice, onRefresh }) => {
   const [invoiceList, setInvoiceList] = useState([])
@@ -14,7 +15,7 @@ const InvoiceList = ({ invoices, refreshTrigger, onViewInvoice, onRefresh }) => 
   const fetchInvoices = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/invoices')
+      const response = await axios.get(`${config.apiUrl}/api/invoices`)
       setInvoiceList(response.data)
     } catch (error) {
       console.error('Error fetching invoices:', error)
@@ -26,7 +27,7 @@ const InvoiceList = ({ invoices, refreshTrigger, onViewInvoice, onRefresh }) => 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this invoice?')) {
       try {
-        await axios.delete(`/api/invoices/${id}`)
+        await axios.delete(`${config.apiUrl}/api/invoices/${id}`)
         onRefresh()
       } catch (error) {
         console.error('Error deleting invoice:', error)
